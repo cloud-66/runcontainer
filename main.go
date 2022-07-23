@@ -29,13 +29,14 @@ func run() {
 		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID,
 	}
 
-	syscall.Sethostname([]byte("container"))
 	cmd.Run()
 }
 
 func child() {
 	fmt.Printf("running %v as pid %d\n",os.Args[2:],os.Getpid())
+
 	syscall.Sethostname([]byte("container"))
+	
 	cmd := exec.Command(os.Args[2], os.Args[3:]...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
